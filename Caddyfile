@@ -1,8 +1,12 @@
-# tls webwurst@gmail.com
-0.0.0.0
-browse /var/www
-# browse
 
-#mysite.com {
-#	root /www/mysite.com
-#}
+thisone.rocks {
+  root /var/www/thisone.rocks
+  browse
+  tls webwurst@gmail.com
+}
+
+caddy.thisone.rocks {
+  tls webwurst@gmail.com
+  # proxy / rocketchat
+  proxy / localhost:8888
+}
