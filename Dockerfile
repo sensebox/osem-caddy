@@ -1,25 +1,17 @@
 FROM alpine:3.2
-MAINTAINER Abiola Ibrahim <abiola89@gmail.com>
 
-LABEL caddy_version="0.8" architecture="amd64"
+# ENV CADDY_VERSION 0.8
+ENV CADDY_FEATURES ""
+#^ "cors,git,hugo,ipfilter,jsonp,search"
 
-RUN apk add --update openssh-client git tar
+RUN apk add --update curl \
+  && rm -rf /var/cache/apk/*
 
-RUN mkdir /caddysrc \
-&& curl -sL -o /caddysrc/caddy_linux_amd64.tar.gz "http://caddyserver.com/download/build?os=linux&arch=amd64&features=git" \
-&& tar -xf /caddysrc/caddy_linux_amd64.tar.gz -C /caddysrc \
-&& mv /caddysrc/caddy /usr/bin/caddy \
-&& chmod 755 /usr/bin/caddy \
-&& rm -rf /caddysrc \
-&& printf "0.0.0.0\nbrowse" > /etc/Caddyfile
+RUN curl -SL "http://caddyserver.com/download/build?os=linux&arch=amd64&features=$CADDY_FEATURES" \
+    | tar -xz -C /usr/bin \
+  && chmod u+x /usr/bin/caddy
 
-RUN mkdir /srv
+RUN printf "0.0.0.0\nbrowse /var/www" > /Caddyfile
 
-EXPOSE 2015
-EXPOSE 443
-EXPOSE 80
-
-WORKDIR /srv
-
-ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["--conf", "/etc/Caddyfile"]
+EXPOSE 80 443 2015
+CMD ["caddy"]

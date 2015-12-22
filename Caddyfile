@@ -1,0 +1,8 @@
+# tls webwurst@gmail.com
+0.0.0.0
+browse /var/www
+# browse
+
+#mysite.com {
+#	root /www/mysite.com
+#}
