@@ -1,12 +1,11 @@
 
-thisone.rocks {
-  root /var/www/thisone.rocks
+example.com {
+  tls email@domain.com
+  root /var/www/example.com
   browse
-  tls webwurst@gmail.com
 }
 
-caddy.thisone.rocks {
-  tls webwurst@gmail.com
-  # proxy / rocketchat
-  proxy / localhost:8888
+sub.example.com {
+  tls email@domain.com
+  proxy / server.local:8888
 }
