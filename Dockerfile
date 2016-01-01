@@ -7,7 +7,7 @@ ENV CADDY_FEATURES ""
 RUN apk add --update curl \
   && rm -rf /var/cache/apk/*
 
-RUN curl -SL "http://caddyserver.com/download/build?os=linux&arch=amd64&features=$CADDY_FEATURES" \
+RUN curl -SL "https://caddyserver.com/download/build?os=linux&arch=arm&features=$CADDY_FEATURES" \
     | tar -xz -C /usr/bin \
   && chmod u+x /usr/bin/caddy
 
