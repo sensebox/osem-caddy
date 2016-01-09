@@ -13,7 +13,7 @@ RUN ARCH=$(if [ $(apk --print-arch) = x86_64 ]; then echo "amd64"; else $(apk --
   && chmod u+x /usr/bin/caddy
 
 RUN mkdir -p /var/www \
-  && printf "0.0.0.0\nbrowse /var/www\n" > /Caddyfile
+  && printf "0.0.0.0\nroot /var/www\nbrowse\n" > /Caddyfile
 
 EXPOSE 80 443 2015
 CMD ["caddy"]
