@@ -1,9 +1,0 @@
-FROM hypriot/rpi-golang:1.5
-
-RUN go get github.com/mholt/caddy
-
-WORKDIR /
-RUN printf "0.0.0.0\nbrowse /var/www" > /Caddyfile
-
-EXPOSE 80 443 2015
-CMD ["caddy"]
