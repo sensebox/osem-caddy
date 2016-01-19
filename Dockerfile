@@ -1,9 +1,9 @@
-FROM alpine:3.2
+FROM alpine:3.3
 
 RUN apk add --update curl \
   && rm -rf /var/cache/apk/*
 
-# ENV CADDY_VERSION 0.8
+# ENV CADDY_VERSION 0.8.1
 ENV CADDY_FEATURES ""
   #^ "cors,git,hugo,ipfilter,jsonp,search"
 
