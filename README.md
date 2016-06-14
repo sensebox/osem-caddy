@@ -1,15 +1,17 @@
-# caddy
+# caddy for OpenSenseMap
 
 ```
-docker build -t local/caddy .
+docker build -t osem-caddy .
 ```
 
 ```
 docker run \
-  --volume $PWD/Caddyfile:/Caddyfile \
   --volume $PWD/certs:/root/.caddy \
-  --volume $PWD/www:/var/www \
+  --env WEB_DOMAIN=your.web.domain \
+  --env API_DOMAIN=your.api.domain \
+  --env ISSUER_ADDRESS=your.email@domain \
   --publish 80:80 \
   --publish 443:443 \
-  local/caddy
+  --publish 8000:8000 \
+  caddy
 ```

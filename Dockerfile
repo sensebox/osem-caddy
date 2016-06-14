@@ -12,6 +12,8 @@ RUN curl -fsSL "http://caddyserver.com/download/build?os=linux&arch=amd64&featur
   && chmod u+x /usr/bin/caddy
 
 COPY ./Caddyfile /etc/caddy/
+COPY ./run.sh /
 
 EXPOSE 80 443 8000
-CMD ["caddy", "-conf", "/etc/caddy/Caddyfile"]
+
+CMD ["./run.sh"]
