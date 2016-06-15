@@ -34,13 +34,6 @@ API_DOMAIN {
   tls ISSUER_ADDRESS
   gzip
 
-  # workaround for issue https://github.com/captncraig/cors/issues/5
-  header / {
-    Access-Control-Allow-Origin  *
-    Access-Control-Allow-Methods "GET, POST, OPTIONS"
-    Access-Control-Allow-Headers "Authorization"
-  }
-
   proxy / api:8000/ {
     proxy_header Host {host}
     proxy_header X-Real-IP {remote}

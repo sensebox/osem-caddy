@@ -7,6 +7,8 @@ RUN apk add --update-cache curl ca-certificates \
 ENV CADDY_FEATURES "cors"
   #^ "cors,git,hugo,ipfilter,jsonp,search"
 
+ENV HOME /etc/caddy
+
 RUN curl -fsSL "http://caddyserver.com/download/build?os=linux&arch=amd64&features=$CADDY_FEATURES" \
     | tar -xz -C /usr/bin \
   && chmod u+x /usr/bin/caddy
