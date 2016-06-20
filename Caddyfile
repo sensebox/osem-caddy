@@ -1,4 +1,4 @@
-WEB_DOMAIN {
+WEB_DOMAIN, www.WEB_DOMAIN {
   root /usr/src/app/dist
   tls ISSUER_ADDRESS
 
@@ -43,7 +43,7 @@ API_DOMAIN {
 }
 
 # legacy api on port 8000
-WEB_DOMAIN:8000 {
+WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
   tls off
   gzip
   cors
