@@ -27,7 +27,7 @@ WEB_DOMAIN {
   gzip {
     not /images /userimages /fonts
   }
-  log stout
+  log stdout
 }
 
 API_DOMAIN {
@@ -39,7 +39,7 @@ API_DOMAIN {
     proxy_header X-Real-IP {remote}
     proxy_header X-Forwarded-Proto {scheme}
   }
-  log stout
+  log stdout
 }
 
 # legacy api on port 8000
@@ -53,5 +53,5 @@ WEB_DOMAIN:8000 {
     proxy_header X-Real-IP {remote}
     proxy_header X-Forwarded-Proto {scheme}
   }
-  log stout
+  log stdout
 }
