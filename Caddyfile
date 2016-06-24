@@ -32,7 +32,9 @@ WEB_DOMAIN, www.WEB_DOMAIN {
 
 API_DOMAIN {
   tls ISSUER_ADDRESS
-  gzip
+  gzip {
+    not /boxes/data
+  }
 
   proxy / api:8000/ {
     proxy_header Host {host}
