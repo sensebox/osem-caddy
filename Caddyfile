@@ -48,7 +48,6 @@ API_DOMAIN {
 WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
   tls off
   gzip
-  cors
 
   proxy / api:8000/ {
     proxy_header Host {host}
