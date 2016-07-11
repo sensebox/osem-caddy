@@ -49,6 +49,8 @@ WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
   tls off
   gzip
 
+  header / Deprecation-Warning "If your client supports TLS, please use https://API_DOMAIN"
+
   proxy / api:8000/ {
     proxy_header Host {host}
     proxy_header X-Real-IP {remote}
