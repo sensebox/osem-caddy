@@ -1,17 +1,18 @@
 FROM alpine:3.4
 
-RUN apk add --update-cache curl ca-certificates \
-  && rm -rf /var/cache/apk/*
-
-# ENV CADDY_VERSION 0.8.3
 ENV CADDY_FEATURES "cors"
   #^ "cors,git,hugo,ipfilter,jsonp,search"
 
-ENV HOME /etc/caddy
+RUN apk --no-cache add curl ca-certificates tar
 
-RUN curl -fsSL "http://caddyserver.com/download/build?os=linux&arch=amd64&features=$CADDY_FEATURES" \
-    | tar -xz -C /usr/bin \
-  && chmod u+x /usr/bin/caddy
+RUN curl --silent --show-error --fail --location \
+      --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
+      "https://caddyserver.com/download/build?os=linux&arch=amd64&features=$CADDY_FEATURES" \
+    | tar --no-same-owner -C /usr/bin/ -xz caddy \
+ && chmod 0755 /usr/bin/caddy \
+ && /usr/bin/caddy -version
+
+ENV HOME /etc/caddy
 
 COPY ./Caddyfile /etc/caddy/
 COPY ./run.sh /

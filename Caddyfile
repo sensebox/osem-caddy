@@ -37,9 +37,7 @@ API_DOMAIN {
   }
 
   proxy / api:8000/ {
-    proxy_header Host {host}
-    proxy_header X-Real-IP {remote}
-    proxy_header X-Forwarded-Proto {scheme}
+    transparent
   }
   log stdout
 }
@@ -52,9 +50,7 @@ WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
   header / Deprecation-Warning "If your client supports TLS, please use https://API_DOMAIN"
 
   proxy / api:8000/ {
-    proxy_header Host {host}
-    proxy_header X-Real-IP {remote}
-    proxy_header X-Forwarded-Proto {scheme}
+    transparent
   }
   log stdout
 }
