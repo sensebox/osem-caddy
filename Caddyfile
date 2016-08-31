@@ -2,6 +2,15 @@ WEB_DOMAIN, www.WEB_DOMAIN {
   root /usr/src/app/dist
   tls ISSUER_ADDRESS
 
+  # some security headers
+  header / {
+    X-XSS-Protection "1; mode=block"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+
+    -Server
+  }
+
   rewrite {
     if {file} not favicon.ico
     if {file} not files/*
@@ -34,6 +43,15 @@ API_DOMAIN {
   tls ISSUER_ADDRESS
   gzip {
     not /boxes/data
+  }
+
+  # some security headers
+  header / {
+    X-XSS-Protection "1; mode=block"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+
+    -Server
   }
 
   proxy / api:8000/ {
