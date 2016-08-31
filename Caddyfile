@@ -65,10 +65,29 @@ WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
   tls off
   gzip
 
-  header / Deprecation-Warning "If your client supports TLS, please use https://API_DOMAIN"
+  # strip the headers to a bare minimum to make using the insecure endpoint difficult
+  header / {
+    Deprecation-Warning "If your client supports TLS, please use https://API_DOMAIN"
+
+    -Server
+    -Access-Control-Allow-Headers
+    -Access-Control-Allow-Methods
+    -Access-Control-Allow-Origin
+    -Access-Control-Expose-Headers
+    -Request-Id
+    -Response-Time
+  }
 
   proxy / api:8000/ {
     transparent
+
+    header_downstream -Server ""
+    header_downstream -Access-Control-Allow-Headers ""
+    header_downstream -Access-Control-Allow-Methods ""
+    header_downstream -Access-Control-Allow-Origin ""
+    header_downstream -Access-Control-Expose-Headers ""
+    header_downstream -Request-Id ""
+    header_downstream -Response-Time ""
   }
   log stdout
 }
