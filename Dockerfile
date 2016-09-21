@@ -1,6 +1,6 @@
 FROM alpine:3.4
 
-ENV CADDY_FEATURES "cors"
+ENV CADDY_FEATURES ""
   #^ "cors,git,hugo,ipfilter,jsonp,search"
 
 RUN apk --no-cache add curl ca-certificates tar
