@@ -37,6 +37,7 @@ WEB_DOMAIN, www.WEB_DOMAIN {
     not /images /userimages /fonts
   }
   log stdout
+  errors stdout
 }
 
 API_DOMAIN {
@@ -58,6 +59,7 @@ API_DOMAIN {
     transparent
   }
   log stdout
+  errors stdout
 }
 
 # legacy api on port 8000
@@ -90,4 +92,5 @@ WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
     header_downstream -Response-Time ""
   }
   log stdout
+  errors stdout
 }
