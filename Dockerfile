@@ -14,8 +14,8 @@ RUN curl --silent --show-error --fail --location \
 
 ENV HOME /etc/caddy
 
-COPY ./Caddyfile /etc/caddy/
-COPY ./run.sh /
+COPY Caddyfile /etc/caddy/
+COPY run.sh /
 
 EXPOSE 80 443 8000
 
