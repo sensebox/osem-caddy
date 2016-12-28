@@ -33,18 +33,13 @@ WEB_DOMAIN, www.WEB_DOMAIN {
     Cache-Control public
   }
 
-  gzip {
-    not /images /userimages /fonts
-  }
   log stdout
   errors stdout
 }
 
 API_DOMAIN {
   tls ISSUER_ADDRESS
-  gzip {
-    not /boxes/data
-  }
+  gzip
 
   # some security headers
   header / {
