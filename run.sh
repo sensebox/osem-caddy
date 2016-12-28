@@ -14,6 +14,6 @@ fi
 
 sed -i -e "s|API_DOMAIN|$api_domain|" -e "s|\.WEB_DOMAIN:|.$osem_domain:|" -e "s|\.WEB_DOMAIN|.$osem_domain|" -e "s|WEB_DOMAIN|$osem_domain|" -e "s|ISSUER_ADDRESS|$issuer_adr|" /etc/caddy/Caddyfile
 
-execstr="/usr/bin/caddy $use_staging_ca -conf /etc/caddy/Caddyfile"
+execstr="/usr/bin/caddy $use_staging_ca -conf /etc/caddy/Caddyfile -quic"
 
 eval exec "$execstr"
