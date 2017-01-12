@@ -1,9 +1,9 @@
 FROM alpine:3.5
 
-ENV CADDY_FEATURES ""
+ENV CADDY_FEATURES "git"
   #^ "cors,git,hugo,ipfilter,jsonp,search"
 
-RUN apk --no-cache add curl ca-certificates tar
+RUN apk --no-cache add curl ca-certificates tar git
 
 RUN curl --silent --show-error --fail --location \
       --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
