@@ -11,12 +11,16 @@ WEB_DOMAIN, www.WEB_DOMAIN {
     -Server
   }
 
-  rewrite {
-    if {file} not favicon.ico
-    if {file} not files/*
-    if {file} not userimages/*
-    to {path} {path}/ /index.html
+  rewrite /explore {
+    regexp .*
+    to /index.html
   }
+
+  rewrite /interpolation /index.html
+  rewrite /filter /index.html
+  rewrite /download /index.html
+  rewrite /register /index.html
+  rewrite /info /index.html
 
   header /scripts {
     Expires "Thu, 31 Dec 2037 23:55:55 GMT"
