@@ -8,6 +8,9 @@ WEB_DOMAIN, www.WEB_DOMAIN {
     X-Content-Type-Options "nosniff"
     X-Frame-Options "DENY"
 
+    # Instruct browsers to cache everything up to 5 minutes
+    Cache-Control "public, max-age: 300"
+
     -Server
   }
 
