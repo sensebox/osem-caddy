@@ -40,7 +40,7 @@ WEB_DOMAIN, www.WEB_DOMAIN {
     Cache-Control public
   }
 
-  log / stdout "{remote} - [{when}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
   errors stdout
 }
 
@@ -60,7 +60,7 @@ API_DOMAIN {
   proxy / api:8000/ {
     transparent
   }
-  log / stdout "{remote} - [{when}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
   errors stdout
 }
 
@@ -93,6 +93,6 @@ WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
     header_downstream -Request-Id ""
     header_downstream -Response-Time ""
   }
-  log / stdout "{remote} - [{when}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
   errors stdout
 }
