@@ -8,8 +8,10 @@ osem_domain=${WEB_DOMAIN:-localhost.localdomain}
 issuer_adr=${ISSUER_ADDRESS:-}
 use_staging_ca=${USE_STAGING_CA:-}
 
-if [[ -n "$use_staging_ca" ]]; then
+if [[ "$use_staging_ca" == "true" ]]; then
   use_staging_ca="-ca \"https://acme-staging.api.letsencrypt.org/directory\""
+else
+  use_staging_ca=""
 fi
 
 sed -i -e "s|API_DOMAIN|$api_domain|" -e "s|\.WEB_DOMAIN:|.$osem_domain:|" -e "s|\.WEB_DOMAIN|.$osem_domain|" -e "s|WEB_DOMAIN|$osem_domain|" -e "s|ISSUER_ADDRESS|$issuer_adr|" /etc/caddy/Caddyfile
