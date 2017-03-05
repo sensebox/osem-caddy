@@ -1,6 +1,6 @@
-WEB_DOMAIN, www.WEB_DOMAIN {
+{$WEB_DOMAIN}, www.{$WEB_DOMAIN} {
   root /usr/src/app/dist
-  tls ISSUER_ADDRESS
+  tls {$ISSUER_ADDRESS}
 
   # some security headers
   header / {
@@ -44,8 +44,8 @@ WEB_DOMAIN, www.WEB_DOMAIN {
   errors stdout
 }
 
-API_DOMAIN {
-  tls ISSUER_ADDRESS
+{$API_DOMAIN} {
+  tls {$ISSUER_ADDRESS}
   gzip
 
   # some security headers
@@ -65,13 +65,13 @@ API_DOMAIN {
 }
 
 # legacy api on port 8000
-WEB_DOMAIN:8000, www.WEB_DOMAIN:8000 {
+{$WEB_DOMAIN}:8000, www.{$WEB_DOMAIN}:8000 {
   tls off
   gzip
 
   # strip the headers to a bare minimum to make using the insecure endpoint difficult
   header / {
-    Deprecation-Warning "If your client supports TLS, please use https://API_DOMAIN"
+    Deprecation-Warning "If your client supports TLS, please use https://{$API_DOMAIN}"
 
     -Server
     -Access-Control-Allow-Headers
