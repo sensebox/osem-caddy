@@ -16,3 +16,5 @@ docker run \
   --publish 8000:8000 \
   caddy
 ```
+
+It is possible to add additional vhosts through the `ADDITIONAL_VHOSTS` environment variable. The whole contents of this variable will be parsed as caddy directives.
