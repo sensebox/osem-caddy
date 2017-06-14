@@ -1,0 +1,116 @@
+{$WEB_DOMAIN}, www.{$WEB_DOMAIN} {
+  root /usr/src/app/dist
+
+  # some security headers
+  header / {
+    X-XSS-Protection "1; mode=block"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+
+    # Instruct browsers to cache everything up to 5 minutes
+    Cache-Control "public, max-age: 300"
+
+    -Server
+  }
+
+  rewrite /explore {
+    regexp .*
+    to /index.html
+  }
+
+  rewrite /account {
+    regexp .*
+    to /index.html
+  }
+
+  rewrite /interpolation /index.html
+  rewrite /filter /index.html
+  rewrite /download /index.html
+  rewrite /register /index.html
+  rewrite /info /index.html
+
+  header /scripts {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  header /styles {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  header /fonts {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
+{$API_DOMAIN}, {$INGRESS_DOMAIN} {
+  gzip
+
+  # some security headers
+  header / {
+    X-XSS-Protection "1; mode=block"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+
+    -Server
+  }
+
+  proxy / api:8000/ {
+    transparent
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
+# legacy api on port 8000
+{$WEB_DOMAIN}:8000, www.{$WEB_DOMAIN}:8000, {$INGRESS_DOMAIN}:80 {
+  tls off
+  gzip
+
+  # strip the headers to a bare minimum to make using the insecure endpoint difficult
+  header / {
+    Deprecation-Warning "If your client supports TLS, please use https://{$API_DOMAIN}"
+
+    -Server
+    -Access-Control-Allow-Headers
+    -Access-Control-Allow-Methods
+    -Access-Control-Allow-Origin
+    -Access-Control-Expose-Headers
+    -Request-Id
+    -Response-Time
+  }
+
+  proxy / api:8000/ {
+    transparent
+
+    header_downstream -Server ""
+    header_downstream -Access-Control-Allow-Headers ""
+    header_downstream -Access-Control-Allow-Methods ""
+    header_downstream -Access-Control-Allow-Origin ""
+    header_downstream -Access-Control-Expose-Headers ""
+    header_downstream -Request-Id ""
+    header_downstream -Response-Time ""
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
+{$TTN_DOMAIN} {
+  gzip
+
+  header / {
+    -Server
+  }
+
+  proxy / ttn-integration:3000/ {
+    transparent
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
