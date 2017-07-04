@@ -15,19 +15,19 @@
 
   rewrite /explore {
     regexp .*
-    to /index.html
+    to /
   }
 
   rewrite /account {
     regexp .*
-    to /index.html
+    to /
   }
 
-  rewrite /interpolation /index.html
-  rewrite /filter /index.html
-  rewrite /download /index.html
-  rewrite /register /index.html
-  rewrite /info /index.html
+  rewrite /interpolation /
+  rewrite /filter /
+  rewrite /download /
+  rewrite /register /
+  rewrite /info /
 
   header /scripts {
     Expires "Thu, 31 Dec 2037 23:55:55 GMT"
