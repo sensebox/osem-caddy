@@ -114,3 +114,20 @@
   errors stdout
 }
 
+http://internet-test.{$WEB_DOMAIN}, https://internet-test.{$WEB_DOMAIN} {
+  root /etc/caddy/roots/internet-test
+  startup mkdir -p /etc/caddy/roots/internet-test
+  startup "sh -c \"echo 'Connection successful! / Verbindung erfolgreich!' > /etc/caddy/roots/internet-test/index.txt\""
+  ext .txt
+  rewrite / {
+    regexp .*
+    to /
+  }
+  header / {
+    -Server
+    -Etag
+    -Last-modified
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
