@@ -21,6 +21,7 @@ ENV HOME /etc/caddy
 COPY Caddyfile /etc/caddy/
 COPY vhosts /etc/caddy/vhosts
 COPY run.sh /
+COPY roots /etc/caddy/roots
 
 # Copy confd files
 COPY confd_files /etc/confd/

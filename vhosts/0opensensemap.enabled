@@ -1,5 +1,5 @@
 {$WEB_DOMAIN}, www.{$WEB_DOMAIN} {
-  root /usr/src/app/dist
+  root /etc/caddy/roots/maintenance
 
   # some security headers
   header / {
@@ -13,35 +13,9 @@
     -Server
   }
 
-  rewrite /explore {
+  rewrite {
     regexp .*
     to /
-  }
-
-  rewrite /account {
-    regexp .*
-    to /
-  }
-
-  rewrite /interpolation /
-  rewrite /filter /
-  rewrite /download /
-  rewrite /register /
-  rewrite /info /
-
-  header /scripts {
-    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
-    Cache-Control public
-  }
-
-  header /styles {
-    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
-    Cache-Control public
-  }
-
-  header /fonts {
-    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
-    Cache-Control public
   }
 
   log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
