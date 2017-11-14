@@ -1,22 +1,54 @@
+#
+# Builder
+#
+FROM golang:1.9-alpine as builder
+
+ARG version="0.10.10"
+ARG plugins="git"
+
+RUN apk add --no-cache curl git
+
+# caddy
+RUN git clone https://github.com/mholt/caddy -b "v${version}" /go/src/github.com/mholt/caddy \
+    && cd /go/src/github.com/mholt/caddy \
+    && git checkout -b "v${version}"
+
+# plugin helper
+RUN go get -v github.com/abiosoft/caddyplug/caddyplug
+
+# plugins
+RUN for plugin in $(echo $plugins | tr "," " "); do \
+    go get -v $(caddyplug package $plugin); \
+    printf "package caddyhttp\nimport _ \"$(caddyplug package $plugin)\"" > \
+        /go/src/github.com/mholt/caddy/caddyhttp/$plugin.go ; \
+    done
+
+# builder dependency
+RUN git clone https://github.com/caddyserver/builds /go/src/github.com/caddyserver/builds
+
+# build
+RUN cd /go/src/github.com/mholt/caddy/caddy \
+    && git checkout -f \
+    && go run build.go \
+    && mv caddy /go/bin
+
+# confd
+RUN curl --silent --show-error --fail --location \
+      https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 > /usr/bin/confd \
+    && chmod 0755 /usr/bin/confd
+
+#
+# Final stage
+#
 FROM alpine:3.6
 
-ENV CADDY_FEATURES "http.git"
-  #^ "cors,git,hugo,ipfilter,jsonp,search"
-
-RUN apk --no-cache add curl ca-certificates tar git
-
-RUN curl --silent --show-error --fail --location \
-      --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-      "https://caddyserver.com/download/linux/amd64?plugins=${CADDY_FEATURES}" \
-    | tar --no-same-owner -C /usr/bin/ -xz caddy \
-    && chmod 0755 /usr/bin/caddy \
-    && /usr/bin/caddy -version \
-    && curl --silent --show-error --fail --location \
-      https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 > /usr/bin/confd \
-    && chmod 0755 /usr/bin/confd \
-    && /usr/bin/confd -version
-
 ENV HOME /etc/caddy
+
+RUN apk add --no-cache ca-certificates git
+
+# install caddy
+COPY --from=builder /go/bin/caddy /usr/bin/caddy
+COPY --from=builder /usr/bin/confd /usr/bin/confd
 
 COPY Caddyfile /etc/caddy/
 COPY vhosts /etc/caddy/vhosts
