@@ -1,0 +1,87 @@
+{$API_DOMAIN} {
+  gzip
+
+  # some security headers
+  header / {
+    X-XSS-Protection "1; mode=block"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+
+    -Server
+  }
+
+  proxy / api:8000/ {
+    transparent
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
+{$INGRESS_DOMAIN} {
+  gzip
+
+  header / {
+    -Server
+  }
+
+  proxy / api:8000/ {
+    transparent
+
+    header_downstream -Server
+    header_downstream -Access-Control-Allow-Headers
+    header_downstream -Access-Control-Allow-Methods
+    header_downstream -Access-Control-Allow-Origin
+    header_downstream -Access-Control-Expose-Headers
+    header_downstream -Access-Control-Max-Age
+    header_downstream -Request-Id
+    header_downstream -Response-Time
+    header_downstream -Content-Md5
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
+
+# legacy api on port 8000
+{$WEB_DOMAIN}:8000, www.{$WEB_DOMAIN}:8000, {$INGRESS_DOMAIN}:80 {
+  tls off
+  gzip
+
+  # strip the headers to a bare minimum to make using the insecure endpoint difficult
+  header / {
+    Deprecation-Warning "If your client supports TLS, please use https://{$INGRESS_DOMAIN}"
+
+    -Server
+  }
+
+  proxy / api:8000/ {
+    transparent
+
+    header_downstream -Server
+    header_downstream -Access-Control-Allow-Headers
+    header_downstream -Access-Control-Allow-Methods
+    header_downstream -Access-Control-Allow-Origin
+    header_downstream -Access-Control-Expose-Headers
+    header_downstream -Access-Control-Max-Age
+    header_downstream -Request-Id
+    header_downstream -Response-Time
+    header_downstream -Content-Md5
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
+{$TTN_DOMAIN} {
+  gzip
+
+  header / {
+    -Server
+  }
+
+  proxy / ttn-integration:3000/ {
+    transparent
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+

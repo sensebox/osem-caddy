@@ -1,0 +1,67 @@
+{$WEB_DOMAIN}, www.{$WEB_DOMAIN} {
+  root /usr/src/app/dist
+
+  # some security headers
+  header / {
+    X-XSS-Protection "1; mode=block"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+
+    # Instruct browsers to cache everything up to 5 minutes
+    Cache-Control "public, max-age: 300"
+
+    -Server
+  }
+
+  rewrite /explore {
+    regexp .*
+    to /
+  }
+
+  rewrite /account {
+    regexp .*
+    to /
+  }
+
+  rewrite /interpolation /
+  rewrite /filter /
+  rewrite /download /
+  rewrite /register /
+  rewrite /info /
+
+  header /scripts {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  header /styles {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  header /fonts {
+    Expires "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control public
+  }
+
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
+
+http://internet-test.{$WEB_DOMAIN}, https://internet-test.{$WEB_DOMAIN} {
+  root /etc/caddy/roots/internet-test
+  startup mkdir -p /etc/caddy/roots/internet-test
+  startup "sh -c \"echo 'Connection successful! / Verbindung erfolgreich!' > /etc/caddy/roots/internet-test/index.txt\""
+  ext .txt
+  rewrite / {
+    regexp .*
+    to /
+  }
+  header / {
+    -Server
+    -Etag
+    -Last-modified
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}

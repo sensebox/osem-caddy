@@ -3,7 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-confd -onetime -backend env
+/usr/bin/confd -onetime -backend env
 
 use_staging_ca=${USE_STAGING_CA:-}
 
