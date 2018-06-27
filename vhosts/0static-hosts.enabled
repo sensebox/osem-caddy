@@ -14,8 +14,8 @@
   }
 
   rewrite /explore {
-    regexp .*
-    to /
+   regexp .*
+   to /
   }
 
   rewrite /account {

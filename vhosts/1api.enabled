@@ -27,6 +27,10 @@
   proxy / api:8000/ {
     transparent
 
+    # Workaround do minimize 502 errors
+    # https://github.com/mholt/caddy/issues/1925
+    fail_timeout 0
+
     header_downstream -Server
     header_downstream -Access-Control-Allow-Headers
     header_downstream -Access-Control-Allow-Methods
@@ -56,6 +60,10 @@
 
   proxy / api:8000/ {
     transparent
+
+    # Workaround do minimize 502 errors
+    # https://github.com/mholt/caddy/issues/1925
+    fail_timeout 0
 
     header_downstream -Server
     header_downstream -Access-Control-Allow-Headers
