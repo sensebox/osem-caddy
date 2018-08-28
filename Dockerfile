@@ -16,9 +16,12 @@ RUN wget -O /usr/bin/confd \
 #
 # Final stage
 #
-FROM alpine:3.7
+FROM alpine:3.8
 
 ENV HOME /etc/caddy
+
+# Telemetry Stats
+ENV ENABLE_TELEMETRY="false"
 
 RUN apk add --no-cache ca-certificates git
 
