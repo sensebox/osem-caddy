@@ -27,7 +27,9 @@
   rewrite /filter /
   rewrite /download /
   rewrite /register /
-  rewrite /info /
+  rewrite /about /
+  rewrite /privacy /
+  rewirte /imprint /
 
   header /scripts {
     Expires "Thu, 31 Dec 2037 23:55:55 GMT"
