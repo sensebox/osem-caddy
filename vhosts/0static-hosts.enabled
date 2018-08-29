@@ -29,7 +29,7 @@
   rewrite /register /
   rewrite /about /
   rewrite /privacy /
-  rewirte /imprint /
+  rewrite /imprint /
 
   header /scripts {
     Expires "Thu, 31 Dec 2037 23:55:55 GMT"
