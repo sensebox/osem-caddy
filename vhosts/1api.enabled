@@ -1,6 +1,10 @@
 {$API_DOMAIN} {
   gzip
 
+  #rate limits for posting boxes
+  ratelimit post /boxes 3 3 minute
+  ratelimit post /users 20 20 minute
+
   # some security headers
   header / {
     X-XSS-Protection "1; mode=block"
@@ -26,6 +30,10 @@
 
   proxy / api:8000/ {
     transparent
+
+    # Workaround do minimize 502 errors
+    # https://github.com/mholt/caddy/issues/1925
+    fail_timeout 0
 
     header_downstream -Server
     header_downstream -Access-Control-Allow-Headers
@@ -56,6 +64,10 @@
 
   proxy / api:8000/ {
     transparent
+
+    # Workaround do minimize 502 errors
+    # https://github.com/mholt/caddy/issues/1925
+    fail_timeout 0
 
     header_downstream -Server
     header_downstream -Access-Control-Allow-Headers

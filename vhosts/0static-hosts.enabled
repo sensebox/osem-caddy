@@ -14,8 +14,8 @@
   }
 
   rewrite /explore {
-    regexp .*
-    to /
+   regexp .*
+   to /
   }
 
   rewrite /account {
@@ -27,7 +27,9 @@
   rewrite /filter /
   rewrite /download /
   rewrite /register /
-  rewrite /info /
+  rewrite /about /
+  rewrite /privacy /
+  rewrite /imprint /
 
   header /scripts {
     Expires "Thu, 31 Dec 2037 23:55:55 GMT"
@@ -50,8 +52,8 @@
 
 http://internet-test.{$WEB_DOMAIN}, https://internet-test.{$WEB_DOMAIN} {
   root /etc/caddy/roots/internet-test
-  startup mkdir -p /etc/caddy/roots/internet-test
-  startup "sh -c \"echo 'Connection successful! / Verbindung erfolgreich!' > /etc/caddy/roots/internet-test/index.txt\""
+  on startup mkdir -p /etc/caddy/roots/internet-test
+  on startup "sh -c \"echo 'Connection successful! / Verbindung erfolgreich!' > /etc/caddy/roots/internet-test/index.txt\""
   ext .txt
   rewrite / {
     regexp .*
