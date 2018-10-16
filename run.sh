@@ -8,7 +8,7 @@ IFS=$'\n\t'
 use_staging_ca=${USE_STAGING_CA:-}
 
 if [[ "$use_staging_ca" == "true" ]]; then
-  use_staging_ca="-ca \"https://acme-staging.api.letsencrypt.org/directory\""
+  use_staging_ca="-ca \"https://acme-staging-v02.api.letsencrypt.org/directory\""
 else
   use_staging_ca=""
 fi
