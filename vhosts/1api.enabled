@@ -1,10 +1,6 @@
 {$API_DOMAIN} {
   gzip
 
-  #rate limits for posting boxes
-  ratelimit post /boxes 3 3 minute
-  ratelimit post /users 20 20 minute
-
   # some security headers
   header / {
     X-XSS-Protection "1; mode=block"
