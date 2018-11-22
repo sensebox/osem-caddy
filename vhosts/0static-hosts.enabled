@@ -51,6 +51,9 @@
 }
 
 http://internet-test.{$WEB_DOMAIN}, https://internet-test.{$WEB_DOMAIN} {
+  tls {$ISSUER_ADDRESS} {
+    protocols tls1.0 tls 1.2
+  }
   root /etc/caddy/roots/internet-test
   on startup mkdir -p /etc/caddy/roots/internet-test
   on startup "sh -c \"echo 'Connection successful! / Verbindung erfolgreich!' > /etc/caddy/roots/internet-test/index.txt\""
