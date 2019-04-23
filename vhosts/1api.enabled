@@ -1,9 +1,8 @@
 {$API_DOMAIN} {
+  tls {$ISSUER_ADDRESS} {
+    protocols tls1.0 tls1.2
+  }
   gzip
-
-  #rate limits for posting boxes
-  ratelimit post /boxes 3 3 minute
-  ratelimit post /users 20 20 minute
 
   # some security headers
   header / {
@@ -22,6 +21,9 @@
 }
 
 {$INGRESS_DOMAIN} {
+  tls {$ISSUER_ADDRESS} {
+    protocols tls1.0 tls1.2
+  }
   gzip
 
   header / {
@@ -33,7 +35,7 @@
 
     # Workaround do minimize 502 errors
     # https://github.com/mholt/caddy/issues/1925
-    fail_timeout 0
+    # fail_timeout 0
 
     header_downstream -Server
     header_downstream -Access-Control-Allow-Headers
@@ -67,7 +69,7 @@
 
     # Workaround do minimize 502 errors
     # https://github.com/mholt/caddy/issues/1925
-    fail_timeout 0
+    # fail_timeout 0
 
     header_downstream -Server
     header_downstream -Access-Control-Allow-Headers
