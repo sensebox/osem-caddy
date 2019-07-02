@@ -109,3 +109,17 @@
   log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
   errors stdout
 }
+
+{$NOTIFICATION_DOMAIN} {
+  gzip
+
+  header / {
+    -Server
+  }
+
+  proxy / rabbitmq:8080/ {
+    transparent
+  }
+  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
+  errors stdout
+}
