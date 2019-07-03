@@ -117,7 +117,7 @@
     -Server
   }
 
-  proxy / rabbitmq:8080/ {
+  proxy / rabbitmq:15672/ {
     transparent
   }
   log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
