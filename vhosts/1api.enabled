@@ -6,7 +6,7 @@
   gzip
 
   #rate limits for posting boxes
-  ratelimit post /boxes 6 6 minute
+  ratelimit post /boxes 15 15 minute
 
   # some security headers
   header / {
@@ -30,7 +30,7 @@
   }
 
   #rate limits for posting boxes
-  ratelimit post /boxes 6 6 minute
+  ratelimit post /boxes 15 15 minute
 
   gzip
 
@@ -66,7 +66,7 @@
   gzip
 
   #rate limits for posting boxes
-  ratelimit post /boxes 6 6 minute
+  ratelimit post /boxes 15 15 minute
 
   # strip the headers to a bare minimum to make using the insecure endpoint difficult
   header / {
