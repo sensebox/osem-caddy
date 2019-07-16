@@ -2,7 +2,11 @@
   tls {$ISSUER_ADDRESS} {
     protocols tls1.0 tls1.2
   }
+
   gzip
+
+  #rate limits for posting boxes
+  ratelimit post /boxes 15 15 minute
 
   # some security headers
   header / {
@@ -24,6 +28,10 @@
   tls {$ISSUER_ADDRESS} {
     protocols tls1.0 tls1.2
   }
+
+  #rate limits for posting boxes
+  ratelimit post /boxes 15 15 minute
+
   gzip
 
   header / {
@@ -56,6 +64,9 @@
 {$WEB_DOMAIN}:8000, www.{$WEB_DOMAIN}:8000, {$INGRESS_DOMAIN}:80 {
   tls off
   gzip
+
+  #rate limits for posting boxes
+  ratelimit post /boxes 15 15 minute
 
   # strip the headers to a bare minimum to make using the insecure endpoint difficult
   header / {
@@ -98,4 +109,3 @@
   log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
   errors stdout
 }
-
