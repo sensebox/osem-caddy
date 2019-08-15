@@ -16,7 +16,7 @@ RUN wget -O /usr/bin/confd \
 #
 # Final stage
 #
-FROM alpine:3.8
+FROM alpine:3.10
 
 ENV HOME /etc/caddy
 
