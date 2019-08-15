@@ -3,7 +3,7 @@
 #
 FROM abiosoft/caddy:builder as builder
 
-ARG version="1.0.1"
+ARG version="1.0.3"
 ARG plugins="git,ratelimit"
 
 RUN VERSION=${version} PLUGINS=${plugins} /bin/sh /usr/bin/builder.sh
@@ -16,7 +16,7 @@ RUN wget -O /usr/bin/confd \
 #
 # Final stage
 #
-FROM alpine:3.8
+FROM alpine:3.10
 
 ENV HOME /etc/caddy
 
