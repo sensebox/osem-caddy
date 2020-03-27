@@ -10,8 +10,8 @@ RUN VERSION=${version} PLUGINS=${plugins} /bin/sh /usr/bin/builder.sh
 
 # confd
 RUN wget -O /usr/bin/confd \
-      https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 \
-    && chmod 0755 /usr/bin/confd
+  https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 \
+  && chmod 0755 /usr/bin/confd
 
 #
 # Final stage
