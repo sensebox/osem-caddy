@@ -4,7 +4,7 @@
 FROM abiosoft/caddy:builder as builder
 
 ARG version="1.0.3"
-ARG plugins="git,ratelimit"
+ARG plugins=""
 
 RUN VERSION=${version} PLUGINS=${plugins} /bin/sh /usr/bin/builder.sh
 
