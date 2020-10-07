@@ -11,7 +11,7 @@
     -Server
   }
 
-  reverse_proxy / api:8000
+  reverse_proxy api:8000
 
   log {
     output stdout
@@ -26,7 +26,7 @@
     -Server
   }
 
-  reverse_proxy / api:8000 {
+  reverse_proxy api:8000 {
     # Workaround do minimize 502 errors
     # https://github.com/mholt/caddy/issues/1925
     # fail_timeout 0
@@ -57,7 +57,7 @@
     -Server
   }
 
-  reverse_proxy / api:8000 {
+  reverse_proxy api:8000 {
     # Workaround do minimize 502 errors
     # https://github.com/mholt/caddy/issues/1925
     # fail_timeout 0
@@ -84,7 +84,7 @@
     -Server
   }
 
-  reverse_proxy / ttn-integration:3000 
+  reverse_proxy ttn-integration:3000 
   log {
     output stdout 
   }
