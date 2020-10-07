@@ -85,6 +85,7 @@
   }
 
   reverse_proxy ttn-integration:3000 
+  
   log {
     output stdout 
   }

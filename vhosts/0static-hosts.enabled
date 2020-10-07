@@ -15,8 +15,8 @@
     -Server
   }
 
-  rewrite /explore /
-  rewrite /account /
+  rewrite /explore/* /
+  rewrite /account/* /
 
   # rewrite /explore {
   #  regexp .*
