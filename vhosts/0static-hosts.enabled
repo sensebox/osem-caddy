@@ -1,6 +1,8 @@
 {$WEB_DOMAIN}, www.{$WEB_DOMAIN} {
   root * /usr/src/app/dist
 
+  file_server
+
   # some security headers
   header / {
     X-XSS-Protection "1; mode=block"
