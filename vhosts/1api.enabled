@@ -1,8 +1,6 @@
 {$API_DOMAIN} {
-  tls {$ISSUER_ADDRESS} {
-    protocols tls1.0 tls1.2
-  }
-  gzip
+  tls {$ISSUER_ADDRESS}
+  encode gzip
 
   # some security headers
   header / {
@@ -13,49 +11,44 @@
     -Server
   }
 
-  proxy / api:8000/ {
-    transparent
+  reverse_proxy / api:8000
+
+  log {
+    output stdout
   }
-  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
-  errors stdout
 }
 
 {$INGRESS_DOMAIN} {
-  tls {$ISSUER_ADDRESS} {
-    protocols tls1.0 tls1.2
-  }
-  gzip
+  tls {$ISSUER_ADDRESS}
+  encode gzip
 
   header / {
     -Server
   }
 
-  proxy / api:8000/ {
-    transparent
-
+  reverse_proxy / api:8000 {
     # Workaround do minimize 502 errors
     # https://github.com/mholt/caddy/issues/1925
     # fail_timeout 0
 
-    header_downstream -Server
-    header_downstream -Access-Control-Allow-Headers
-    header_downstream -Access-Control-Allow-Methods
-    header_downstream -Access-Control-Allow-Origin
-    header_downstream -Access-Control-Expose-Headers
-    header_downstream -Access-Control-Max-Age
-    header_downstream -Request-Id
-    header_downstream -Response-Time
-    header_downstream -Content-Md5
+    header_down -Server
+    header_down -Access-Control-Allow-Headers
+    header_down -Access-Control-Allow-Methods
+    header_down -Access-Control-Allow-Origin
+    header_down -Access-Control-Expose-Headers
+    header_down -Access-Control-Max-Age
+    header_down -Request-Id
+    header_down -Response-Time
+    header_down -Content-Md5
   }
-  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
-  errors stdout
+  log {
+    output stdout
+  }
 }
-
 
 # legacy api on port 8000
 {$WEB_DOMAIN}:8000, www.{$WEB_DOMAIN}:8000, {$INGRESS_DOMAIN}:80 {
-  tls off
-  gzip
+  encode gzip
 
   # strip the headers to a bare minimum to make using the insecure endpoint difficult
   header / {
@@ -64,38 +57,36 @@
     -Server
   }
 
-  proxy / api:8000/ {
-    transparent
-
+  reverse_proxy / api:8000 {
     # Workaround do minimize 502 errors
     # https://github.com/mholt/caddy/issues/1925
     # fail_timeout 0
 
-    header_downstream -Server
-    header_downstream -Access-Control-Allow-Headers
-    header_downstream -Access-Control-Allow-Methods
-    header_downstream -Access-Control-Allow-Origin
-    header_downstream -Access-Control-Expose-Headers
-    header_downstream -Access-Control-Max-Age
-    header_downstream -Request-Id
-    header_downstream -Response-Time
-    header_downstream -Content-Md5
+    header_down -Server
+    header_down -Access-Control-Allow-Headers
+    header_down -Access-Control-Allow-Methods
+    header_down -Access-Control-Allow-Origin
+    header_down -Access-Control-Expose-Headers
+    header_down -Access-Control-Max-Age
+    header_down -Request-Id
+    header_down -Response-Time
+    header_down -Content-Md5
   }
-  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
-  errors stdout
+  log {
+    output stdout
+  }
 }
 
 {$TTN_DOMAIN} {
-  gzip
+  encode gzip
 
   header / {
     -Server
   }
 
-  proxy / ttn-integration:3000/ {
-    transparent
+  reverse_proxy / ttn-integration:3000 
+  log {
+    output stdout 
   }
-  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
-  errors stdout
 }
 

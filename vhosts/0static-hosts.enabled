@@ -1,5 +1,5 @@
 {$WEB_DOMAIN}, www.{$WEB_DOMAIN} {
-  root /usr/src/app/dist
+  root * /usr/src/app/dist
 
   # some security headers
   header / {
@@ -13,15 +13,18 @@
     -Server
   }
 
-  rewrite /explore {
-   regexp .*
-   to /
-  }
+  rewrite /explore /
+  rewrite /account /
 
-  rewrite /account {
-    regexp .*
-    to /
-  }
+  # rewrite /explore {
+  #  regexp .*
+  #  to /
+  # }
+
+  # rewrite /account {
+  #   regexp .*
+  #   to /
+  # }
 
   rewrite /interpolation /
   rewrite /filter /
@@ -46,27 +49,29 @@
     Cache-Control public
   }
 
-  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
-  errors stdout
+  log {
+    output stdout 
+  }
 }
 
 http://internet-test.{$WEB_DOMAIN}, https://internet-test.{$WEB_DOMAIN} {
-  tls {$ISSUER_ADDRESS} {
-    protocols tls1.0 tls1.2
+  tls {$ISSUER_ADDRESS}
+
+  root * /etc/caddy/roots/internet-test
+
+  file_server
+
+  @regexp_all {
+    path_regexp .*
   }
-  root /etc/caddy/roots/internet-test
-  on startup mkdir -p /etc/caddy/roots/internet-test
-  on startup "sh -c \"echo 'Connection successful! / Verbindung erfolgreich!' > /etc/caddy/roots/internet-test/index.txt\""
-  ext .txt
-  rewrite / {
-    regexp .*
-    to /
-  }
+  rewrite @regexp_all /
+
   header / {
     -Server
     -Etag
     -Last-modified
   }
-  log / stdout "{remote} - [{when_iso}] \"{method} {host}{uri} {proto}\" {status} {size}"
-  errors stdout
+  log {
+    output stdout 
+  }
 }
