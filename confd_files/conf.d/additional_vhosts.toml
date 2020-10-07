@@ -1,0 +1,7 @@
+[template]
+src = "additional_vhosts.tmpl"
+dest = "/etc/caddy/vhosts/additional.enabled"
+mode = "0700"
+keys = [
+    "/additional/vhosts",
+]

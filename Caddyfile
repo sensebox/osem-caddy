@@ -1,5 +1,5 @@
 {
-    acme_ca "https://acme-staging-v02.api.letsencrypt.org/directory"
+    acme_ca {$STAGING_CA}
     email {$ISSUER_ADDRESS}
 }
 
